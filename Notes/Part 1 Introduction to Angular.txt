@@ -123,29 +123,32 @@ This is highly useful for handling form inputs.
 
 NgModel [(ngModel)]
 -------------------
-To track what a user types into an input field in real time, combine property 
-binding syntax [] and event binding syntax () together into the 
-"banana-in-a-box" syntax [()].
-
 Syntax: [(ngModel)]="componentProperty"
 
-Setup Prerequisite: You must import FormsModule from @angular/forms in your 
-component's imports array to use this directive.
-
+App.ts
+----------
 Example (TypeScript):
 import { FormsModule } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
-  imports: [FormsModule],
-  // ...
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet, FormsModule],
+  templateUrl: './app.html',
+  styleUrl: './app.css'
 })
-export class AppComponent {
-  username = '';
+export class App {
+  fullname = 'Surya Prakash';
 }
 
-Example (HTML):
-<input [(ngModel)]="username" placeholder="Enter username">
-<p>Hello, {{ username }}!</p>
+--------------------------------
+App.html
+---------
+<h1>{{ fullname }}</h1>
+<input type="text" [(ngModel)]="fullname">
 
 ================================================================================
 
