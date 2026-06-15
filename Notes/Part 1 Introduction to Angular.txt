@@ -1,0 +1,152 @@
+Part 1 - Introduction to Angular 
+
+Angular Installation
+
+--> npm init "@angular" filename
+--> to run npm start
+
+--> npm install -g @angular/cli
+
+CLI stands for Command Line Interface.
+
+It's a way to interact with software by typing commands into a terminal (PowerShell, Command Prompt, Terminal, etc.)
+instead of using a graphical interface with buttons and menus.
+
+ng is the command used by Angular CLI.
+It’s basically the shortcut you type in the terminal to run Angular-related commands.
+
+```text
+================================================================================
+                           ANGULAR DATA BINDING NOTES
+================================================================================
+
+In Angular, data binding is the mechanism that connects your application's UI 
+(HTML Template) with its logic (TypeScript Component). It controls how data flows 
+between the code you write and what the user sees on screen.
+
+--------------------------------------------------------------------------------
+Types of Data Binding
+--------------------------------------------------------------------------------
+Angular divides data binding into two main categories based on the direction 
+the data travels: One-Way Data Binding and Two-Way Data Binding.
+
+                 ┌────────────────────────────────┐
+                 │          DATA BINDING          │
+                 └────────────────┬───────────────┘
+                                  │
+         ┌────────────────────────┴────────────────────────┐
+         ▼                                                 ▼
+┌──────────────────┐                              ┌──────────────────┐
+│     One-Way      │                              │     Two-Way      │
+└────────┬─────────┘                              └────────┬─────────┘
+         │                                                 │
+         ├─► Component to View (Interpolation, Property)  └─► [(ngModel)]
+         │
+         └─► View to Component (Event Binding)
+
+
+--------------------------------------------------------------------------------
+1. One-Way Data Binding (Component to View)
+--------------------------------------------------------------------------------
+This passes data in a single direction: from your TypeScript logic into the 
+HTML layout.
+
+A. String Interpolation {{ }}
+-----------------------------
+Interpolation embeds dynamic text directly into your HTML elements. Angular 
+evaluates whatever is inside the double curly braces and displays it as a string.
+
+Syntax: {{ propertyName }}
+
+Example (TypeScript):
+export class AppComponent {
+  title = 'Welcome to JVL Code';
+}
+
+Example (HTML):
+<h1>{{ title }}</h1>
+
+
+B. Property Binding [ ]
+-----------------------
+Property Binding lets you control HTML element properties dynamically (like 
+setting an image src, disabling a button, or changing a hidden state) using a 
+value from your component.
+
+Syntax: [targetProperty]="componentProperty"
+
+Example (TypeScript):
+export class AppComponent {
+  imageUrl = 'logo.png';
+  isDisabled = true;
+}
+
+Example (HTML):
+<img [src]="imageUrl">
+<button [disabled]="isDisabled">Click Me</button>
+
+
+--------------------------------------------------------------------------------
+2. One-Way Data Binding (View to Component)
+--------------------------------------------------------------------------------
+This captures user interactions from the webpage and passes that data back to 
+your TypeScript file to trigger logic.
+
+Event Binding ( )
+-----------------
+Event binding listens for user actions—like clicks, keystrokes, mouse movements, 
+or form submissions—and calls a specific method in your TypeScript component 
+when they occur.
+
+Syntax: (targetEvent)="componentMethod()"
+
+Example (TypeScript):
+export class AppComponent {
+  counter = 0;
+
+  onIncrement() {
+    this.counter++;
+  }
+}
+
+Example (HTML):
+<button (click)="onIncrement()">Increment</button>
+<p>Count: {{ counter }}</p>
+
+
+--------------------------------------------------------------------------------
+3. Two-Way Data Binding [( )]
+--------------------------------------------------------------------------------
+Two-Way Data Binding ensures that changes to your UI immediately update your 
+TypeScript data, and changes to your TypeScript data immediately update your UI. 
+This is highly useful for handling form inputs.
+
+NgModel [(ngModel)]
+-------------------
+To track what a user types into an input field in real time, combine property 
+binding syntax [] and event binding syntax () together into the 
+"banana-in-a-box" syntax [()].
+
+Syntax: [(ngModel)]="componentProperty"
+
+Setup Prerequisite: You must import FormsModule from @angular/forms in your 
+component's imports array to use this directive.
+
+Example (TypeScript):
+import { FormsModule } from '@angular/forms';
+
+@Component({
+  imports: [FormsModule],
+  // ...
+})
+export class AppComponent {
+  username = '';
+}
+
+Example (HTML):
+<input [(ngModel)]="username" placeholder="Enter username">
+<p>Hello, {{ username }}!</p>
+
+================================================================================
+
+
