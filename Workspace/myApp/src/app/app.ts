@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 
@@ -9,8 +9,14 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
-  fullname = 'Surya Prakash';
-  imageUrl="https://picsum.photos/200";
-  imageAlt="Loading Please Wait for a second"
+
+export class App implements OnInit
+ {
+  user:any = null;
+
+  ngOnInit(){
+    this.user = {
+      name : 'surya'
+    }
+  }
 }

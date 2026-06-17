@@ -67,6 +67,9 @@ Example (HTML):
 <h1>{{ title }}</h1>
 
 
+Attribute = what's written in the HTML source.
+Property = the current live value/state of the DOM object
+
 B. Property Binding [ ]
 -----------------------
 Property Binding lets you control HTML element properties dynamically (like 
@@ -176,3 +179,50 @@ export class App {
 app.html
 ----------
 <img [src]="imageUrl" alt="{{imageAlt}}"/>
+
+---------------------------------------------------------------------------------------------------------------
+
+Safe Navigation with propety binding
+
+App.ts
+---------
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet, FormsModule],
+  templateUrl: './app.html',
+  styleUrl: './app.css'
+})
+
+export class App {
+  user = {name : 'surya'}
+}
+
+App.html
+---------
+<p [textContent]="user.name"></p>
+
+Error rises when
+
+export class App {
+  user:any=null;
+}
+
+To resolve
+
+App.ts
+---------
+export class App implements OnInit
+ {
+  user:any = null;
+
+  ngOnInit(){
+    this.user = {
+      name : 'surya'
+    }
+  }
+}
+
+App.html
+---------
+<p [textContent]="user?.name"></p>
