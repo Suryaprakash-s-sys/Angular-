@@ -10,5 +10,5 @@ import { FormsModule } from '@angular/forms';
 })
 export class Counter 
 {
-    showme=true;
+    applyred=false
 }

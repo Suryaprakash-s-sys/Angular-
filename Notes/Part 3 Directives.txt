@@ -82,7 +82,7 @@ counter.html
 ==================================================================================
 
 ngFor Example									
-		------
+------
 Avengers Doomsday
 Odyysey
 Spider-Man No way home
@@ -110,3 +110,50 @@ Odd  : Spider-Man No way home
 Even : Batman-2
 
 ==================================================================================
+Example for ngIf
+
+<h1 *ngIf="true">can you see me ?</h1>
+
+counter.html
+-------------      
+<h1>Example for ngIf</h1>
+
+<input type="checkbox" [(ngModel)]="showme"/>
+<h1 *ngIf="showme">Can you see me ?</h1>
+
+
+==================================================================================
+
+Attribute Directive
+
+ngClass
+
+counter.css
+-----------
+.primary
+{
+color : "red";
+}
+counter.html
+----------
+
+<h1 [ngClass]="['primary']">Hello world</h1>
+
+with conditional
+
+counter.ts
+-----------
+export class counter
+{
+applyred=false;
+}
+
+counter.html
+-----------
+<input type="checkbox" [(ngModel)]="applyred" />
+<h1 [ngClass]="{'primary' : applyred}">Hello world</h1>
+
+
+ngStyle
+---------
+<p [ngStyle]="{'color':'red';'font-size':'50px'}">silamAuraSan</p>
