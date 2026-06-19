@@ -1,0 +1,45 @@
+Part 2 - Introduction to Signals
+
+Signals are new efficient way to manage Reactive state changes
+
+why we need?
+------------
+Efficicent state change -> only the affected components are updated
+simplicity --> no need for complex subscriptions like rxJs
+performance -> reduces the unneccessary checks across the entire app
+
+creating signals
+-----------------
+ng g c 01-signals/counter
+
+
+app.html
+--------
+<app-counter></app-counter>
+
+app.ts
+------
+imports : [Counter]
+
+-----------------------
+
+counter.html
+-----------
+<h1>clicked {{count}} times</h1>
+<h1>clicked {{double count}} times</h1>
+<button (click)="Increment()">Click me</button>
+
+counter.ts
+-----------
+export class counter
+{
+	count=signal(0);
+	
+	doublecount:Signal<number> = computed(this.count()*2)
+	Increment()
+	{
+	this.count.set(this.count()+1);
+	}
+} 
+
+

@@ -1,0 +1,112 @@
+Part 3 Directives
+
+Changes behaviour, appearance or layout of the elements
+
+Types of Directives
+
+Component
+Structural
+Attribute
+
+Structural Component
+-----------------------
+
+ngFor Example
+--------------
+
+counter.ts
+------------
+import { CommonModule } from '@angular/common';
+import { Component,} from '@angular/core';
+
+@Component({
+  selector: 'app-counter',
+  imports: [CommonModule],
+  templateUrl: './counter.html',
+  styleUrl: './counter.css',
+})
+export class Counter 
+{
+    movies = [
+        'Avengers Doomsday',
+        'Odyysey',
+        'Spider-Man No way home',
+        'Batman-2'
+    ]
+}
+
+==================================================================================
+
+counter.html
+------------
+
+<h1>ngFor Example</h1>
+<ul>
+    <li *ngFor="let movie of movies">{{movie}}</li>
+</ul>
+
+
+<h1>ngFor Example</h1>
+<ul>
+    <li *ngFor="let movie of movies">{{movie}}</li>
+</ul>
+------------------------
+
+<h1>ngFor Index</h1>
+<ul>
+    <li *ngFor="let movie of movies; let i=index">{{i+1}}    {{movie}}</li>
+</ul>
+
+--------------------------
+
+<h1>ngFor first and last</h1>
+<ul>
+    <li *ngFor="let movie of movies; let isFirst=first; let isLast=last">
+        <strong *ngIf="isFirst">First:</strong>
+        <strong *ngIf="isLast">Last:</strong>
+        {{movie}}
+    </li>
+</ul>
+
+----------------------------
+
+<h1>ngFor Odd and even</h1>
+<ul>
+    <li *ngFor="let movie of movies; let iseven=even; let isodd=odd;" 
+    [ngClass]="{'even-item' : iseven, 'odd-item' : isodd}">
+        
+        {{movie}}
+    </li>
+</ul>
+
+==================================================================================
+
+ngFor Example									
+		------
+Avengers Doomsday
+Odyysey
+Spider-Man No way home
+Batman-2
+
+ngFor Index
+-----------
+1 Avengers Doomsday
+2 Odyysey
+3 Spider-Man No way home
+4 Batman-2
+
+ngFor First and Last
+--------------------
+First: Avengers Doomsday
+Odyysey
+Spider-Man No way home
+Last: Batman-2
+
+ngFor Odd and Even
+------------------
+Odd  : Avengers Doomsday
+Even : Odyysey
+Odd  : Spider-Man No way home
+Even : Batman-2
+
+==================================================================================
