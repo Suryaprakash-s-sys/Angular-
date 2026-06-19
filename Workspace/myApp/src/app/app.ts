@@ -10,13 +10,12 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.css'
 })
 
-export class App implements OnInit
+export class App 
  {
-  user:any = null;
+    clickcount=0;
 
-  ngOnInit(){
-    this.user = {
-      name : 'surya'
+    click()
+    {
+      this.clickcount++;
     }
-  }
 }

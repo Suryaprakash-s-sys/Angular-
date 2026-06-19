@@ -226,3 +226,48 @@ export class App implements OnInit
 App.html
 ---------
 <p [textContent]="user?.name"></p>
+
+==================================================================================================
+
+Project 1 : CounterApp
+
+ng new packageName
+ng serve - start the server
+
+ng generate component componentname - to create a component
+
+App.html
+---------
+<app-counter></app-counter>
+
+Counter.html
+------------
+<h1>clicked {{count}} times</h1>
+<button>click me</button>
+
+
+counter.ts
+-----------
+
+@Component(
+{
+	selector:'app-counter',
+	imports:[],
+	templateUrl:'./counter.html',
+	styleUrl:'./counter.css'
+})
+
+export class counter
+{
+	count=0;
+	
+	increment()
+	{
+	this.count++;
+	}
+	decrement()
+	{
+	if(count>0)
+		this.count--;
+	}
+}
