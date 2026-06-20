@@ -1,0 +1,5 @@
+Part 4 Introduction to Pipes
+
+pipes are used to transform data in the template without changing the original value in the component.
+
+A pipe takes input data → transforms it → returns formatted output.

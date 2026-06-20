@@ -1,5 +1,8 @@
 Part 3 Directives
 
+directive is a class that adds behavior to elements in the DOM (Document Object Model). 
+Directives let you manipulate the appearance, structure, or behavior of HTML elements without creating a full component
+
 Changes behaviour, appearance or layout of the elements
 
 Types of Directives
@@ -157,3 +160,71 @@ counter.html
 ngStyle
 ---------
 <p [ngStyle]="{'color':'red';'font-size':'50px'}">silamAuraSan</p>
+
+====================================================================================
+
+Custom Directory
+
+ng new angular-directive-tutorial
+
+ng generate directive highlight
+
+ng g c demo
+
+ng serve
+
+app.html
+----------
+// after imports in app.ts
+imports: [Demo],
+
+<app-demo></app-demo>
+
+
+highlight.ts
+------------
+import { Directive, ElementRef, HostListener, input, Input } from '@angular/core';
+
+@Directive({
+  selector: '[appHighlight]',
+  standalone:true
+})
+
+
+export class HighlightDirective
+{
+  
+  @Input() appHighlight='';
+
+  @HostListener('mouseenter') onMouseEnter()
+  {
+    this.highlight(this.appHighlight || 'yellow');
+  }
+
+  @HostListener('mouseleave') onMouseLeave()
+  {
+    this.highlight('');
+  }
+
+  constructor(private el:ElementRef)
+  {
+
+  }
+
+  private highlight(color : string)
+  {
+    this.el.nativeElement.style.backgroundColor=color;
+  }
+
+
+}
+
+
+demo.html
+-----------
+//After importing Highlight directive in demo.ts
+imports: [HighlightDirective],
+
+<p [appHighlight]="'red'">Hover over this text to see Highlight </p>
+
+
