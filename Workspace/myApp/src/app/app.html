@@ -1,1 +1,4 @@
-<app-counter></app-counter>
+<div>
+<app-forms (carAdded)="onCarAdded($event)"></app-forms>
+<app-list [carNames]="carNames"></app-list>
+</div>
