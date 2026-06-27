@@ -1,1 +1,124 @@
 Sharing Data between Components
+
+sending value from forms to list via app component
+
+forms.ts
+---------
+import { CommonModule } from '@angular/common';
+import { Component, Output,EventEmitter } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
+@Component({
+  selector: 'app-forms',
+  standalone :true,
+  imports: [CommonModule,FormsModule],
+  templateUrl: './forms.html',
+  styleUrl: './forms.css',
+})
+export class Forms 
+{
+  CarName:string='';
+
+  @Output() carAdded=new EventEmitter<string>();
+
+  onsubmit()
+  {
+    console.log(this.CarName + "Added Successfully to wishlist")
+    //sending the value to list component
+    this.carAdded.emit(this.CarName);
+    this.CarName=''
+    
+  }
+
+}
+
+-----------
+forms.html
+-----------
+
+<h1>Forms Ip Op decorators</h1>
+
+<form (submit)="onsubmit()">
+    <label>CarName</label>
+    
+    <input type="text" [(ngModel)]="CarName" name="CarName"/>
+    
+    <button type="submit">submit</button>
+</form>
+
+
+===============================
+list.ts
+--------
+import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-list',
+  standalone:true,
+  imports: [CommonModule],
+  templateUrl: './list.html',
+  styleUrl: './list.css',
+})
+export class List 
+{
+  @Input() carNames : string[]=[];
+}
+
+list.html
+----------
+
+<div>
+    <h1>Car List</h1>
+
+@if(carNames.length>0)
+{
+<ul>
+    <li *ngFor="let car of carNames">{{car}}</li>
+</ul>
+}
+@else
+{
+    <p>No car avalaible</p>
+}
+</div>
+==================================================
+app.ts
+---------
+import { Component, OnInit, Pipe } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterOutlet } from '@angular/router';
+import { Counter } from './01-signals/counter/counter';
+import { PipeComponent } from './02-pipes/pipe/pipe';
+import { CommonModule } from '@angular/common';
+import { Forms } from './03-sharingdata/forms/forms';
+import { List } from './03-sharingdata/list/list';
+
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet,Forms,PipeComponent,List],
+  templateUrl: './app.html',
+  styleUrl: './app.css'
+})
+
+export class App 
+{
+
+  carNames:string[]=[];
+
+onCarAdded(carName: string) {
+  this.carNames.push(carName);
+  console.log(this.carNames);
+}
+}
+
+=========================================================
+app.html
+------------
+<div>
+<app-forms (carAdded)="onCarAdded($event)"></app-forms>
+<app-list [carNames]="carNames"></app-list>
+</div>
+==========================================================

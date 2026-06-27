@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { CarService } from '../../car';
 
 @Component({
   selector: 'app-list',
@@ -8,7 +9,19 @@ import { Component, Input } from '@angular/core';
   templateUrl: './list.html',
   styleUrl: './list.css',
 })
-export class List 
+export class List implements OnInit
 {
-  @Input() carNames:string[]=[];
+  carNames:string[]=[]
+
+  constructor(private carService : CarService)
+  {
+
+  }
+
+  ngOnInit(): void 
+  {
+    this.carService.carNames$.subscribe((names)=>{
+      this.carNames=names;
+    })
+  }
 }

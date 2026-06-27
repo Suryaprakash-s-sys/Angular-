@@ -1,5 +1,17 @@
-<h1>List Field</h1>
 
+<div>
+    <h1>Car List</h1>
+
+@if(carNames.length>0)
+{
 <ul>
     <li *ngFor="let car of carNames">{{car}}</li>
 </ul>
+}
+@else
+{
+    <p>No car avalaible</p>
+}
+
+
+</div>

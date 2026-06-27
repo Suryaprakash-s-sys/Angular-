@@ -18,10 +18,11 @@ import { List } from './03-sharingdata/list/list';
 
 export class App 
 {
-  carNames : string[]=[];
-  onCarAdded(carName : string)
-  {
-    console.log(carName + " from App component");
-    this.carNames.push(carName);
-  }
+
+  carNames:string[]=[];
+
+onCarAdded(carName: string) {
+  this.carNames.push(carName);
+  console.log(this.carNames);
+}
 }
