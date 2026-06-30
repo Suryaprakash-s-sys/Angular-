@@ -4,14 +4,16 @@ import { BehaviorSubject } from 'rxjs';
 @Service()
 export class CarService
 {
-    constructor(){}
-    private carNamesSubject=new BehaviorSubject<string[]>([])
-    carNames$ = this.carNamesSubject.asObservable();
+    constructor()
+    {}
+
+    private addCarNamesubject=new BehaviorSubject<string[]>([]);
+    carNames$=this.addCarNamesubject.asObservable();
+
     addCarName(name : string)
     {
-        //Will added to list component
-        const currentNames=this.carNamesSubject.getValue()
+        const currentNames=this.addCarNamesubject.getValue();
         const updatedNames=[...currentNames,name]
-        this.carNamesSubject.next(updatedNames)
+        this.addCarNamesubject.next(updatedNames);
     }
 }

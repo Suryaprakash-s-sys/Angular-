@@ -1,0 +1,250 @@
+Part 7 Component Life cycle Hooks
+
+ngOnChanges 
+----------
+ngOnChanges is an Angular lifecycle hook used to detect and handle changes to @Input properties of a component.
+
+ngOnChanges works in child components because it is triggered when an @Input() property receives a new value from its parent.
+
+For example:
+-----------
+ app.ts
+----------
+import { Component, OnChanges, OnInit, Pipe, SimpleChanges } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterOutlet } from '@angular/router';
+import { Counter } from './01-signals/counter/counter';
+import { PipeComponent } from './02-pipes/pipe/pipe';
+import { CommonModule } from '@angular/common';
+import { Forms } from './03-sharingdata/forms/forms';
+import { List } from './03-sharingdata/list/list';
+import { ChildComponent } from './04-lifecyclehooks/child/child';
+
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet,ChildComponent,FormsModule],
+  templateUrl: './app.html',
+  styleUrl: './app.css'
+})
+
+export class App 
+{
+  title='';
+  itemList=[
+    {id:1,name : "banana"},
+    {id:2,name : "apple"},
+    {id:3,name : "orange"},
+    {id:4,name : "wmelon"},
+    {id:5,name : "lemon"},
+    {id:6,name:"carrot"}
+  ]
+
+}
+==================================
+app.html
+----------
+<div>
+    <h1>Life Cycle</h1>
+    <input type="text" name="title" [(ngModel)]="title">
+<app-child [items]="itemList" [title]="title"></app-child>
+</div>
+--------------------------------
+child.ts
+--------
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Forms } from '../../03-sharingdata/forms/forms';
+import { log } from 'node:console';
+
+@Component({
+  selector: 'app-child',
+  standalone:true,
+  imports: [Forms],
+  templateUrl: './child.html',
+  styleUrl: './child.css',
+})
+export class ChildComponent implements OnChanges
+{
+    @Input() items:any=[];
+
+    @Input() title='';
+
+    ngOnChanges(changes: SimpleChanges): void 
+    {
+      if(changes['items'])
+      {
+        console.log("Items property changes",changes['items'])
+      }
+
+      if(changes['title'])
+      {
+        console.log("Title property changes",changes['title']);
+        
+      }
+      
+    }
+}
+=================================================================================
+ngOnInit
+---------
+ngOnInit() is a method in Angular that runs automatically after a component is created. 
+It is mainly used to initialize data and execute setup code.
+
+app.ts
+------
+import { Component, OnChanges, OnInit, Pipe, SimpleChanges } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterOutlet } from '@angular/router';
+import { Counter } from './01-signals/counter/counter';
+import { PipeComponent } from './02-pipes/pipe/pipe';
+import { CommonModule } from '@angular/common';
+import { Forms } from './03-sharingdata/forms/forms';
+import { List } from './03-sharingdata/list/list';
+import { ChildComponent } from './04-lifecyclehooks/child/child';
+
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet,ChildComponent,FormsModule],
+  templateUrl: './app.html',
+  styleUrl: './app.css'
+})
+
+export class App implements OnInit
+{
+  message='';
+
+  ngOnInit(): void 
+  {
+    this.message='Welcome to angular course'
+    
+  }
+
+}
+
+=================================================
+app.html
+----------
+<div>
+    <h1>message :{{message}}</h1>
+</div>
+===================================================================================
+ngDoCheck
+--------
+ngDoCheck() is a method that runs whenever Angular checks the component for changes. 
+It is used to perform custom change detection.
+
+app.ts
+------
+import { ChildComponent } from './04-lifecyclehooks/child/child';
+
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet,ChildComponent,FormsModule],
+  templateUrl: './app.html',
+  styleUrl: './app.css'
+})
+
+export class App implements DoCheck
+{
+  message="hello";
+  preMessage="who are u?"
+
+  ngDoCheck(): void {
+    if(this.message!=this.preMessage)
+      console.log(this.message + " value changed");
+      
+  }
+
+}
+
+==================================================================
+app.html
+-----------
+<div>
+    <input type="text" name="message" [(ngModel)]="message"/>
+</div>
+==================================================================
+ngAfterContentInit
+
+Passing HTML content from AppComponent → ChildComponent, and then reading 
+that content inside the child using Angular lifecycle hooks.
+
+<ng-content></ng-content> is an Angular feature used for content projection.
+ It allows a parent component to pass HTML content into a child component.
+
+app.html
+--------
+<app-child>
+    <p #content>Surya</p>
+    <p #content>Dharani</p>
+</app-child>
+
+child.html
+----------
+<div class="content-box">
+    <ng-content></ng-content>
+</div>
+
+child.ts
+--------
+import { Component, AfterContentInit, ContentChildren, ElementRef, QueryList } from '@angular/core';
+
+@Component({
+  selector: 'app-child',
+  standalone: true,
+  templateUrl: './child.html',
+  styleUrl: './child.css',
+})
+export class ChildComponent implements AfterContentInit 
+{
+  @ContentChildren('content') ContentElements !: QueryList<ElementRef>
+
+  ngAfterContentInit(): void {
+    this.ContentElements.forEach((el)=>
+    {
+      console.log("projected " + el.nativeElement.textContent);
+      
+    })
+  }
+
+}
+
+=====================================================================================
+ngAfterViewInit()
+--------------------
+ngAfterViewInit() is an Angular lifecycle hook 
+that is called once after the component’s view (and its child views) has been fully initialized.
+
+child.html
+--------
+<div>
+    <h1>ngAfterviewInit</h1>
+    <label for="nameInput">Name :</label>
+    <input type="text" id="nameInput" #nameInput>
+    <button type="submit">Submit</button>
+</div>
+
+child.ts
+---------
+import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+
+@Component({
+  selector: 'app-child',
+  standalone: true,
+  templateUrl: './child.html',
+  styleUrl: './child.css',
+})
+export class ChildComponent implements AfterViewInit {
+
+  @ViewChild('nameInput') nameInput!: ElementRef;
+
+  ngAfterViewInit(): void {
+    this.nameInput.nativeElement.focus();
+  }
+}
+=========================================================================

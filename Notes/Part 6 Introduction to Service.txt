@@ -1,1 +1,90 @@
 Part 6 Introduction to Service
+
+1)creating a service component and create a method named addcarName with parameter
+2)sending the value using the car service in the form.ts
+3)creating a behavioral subject
+
+car.ts
+@Service()
+export class CarService
+{
+    constructor(){}
+    private carNamesSubject=new BehaviorSubject<string[]>([])
+    carNames$ = this.carNamesSubject.asObservable();
+    addCarName(name : string)
+    {
+        //Will added to list component
+        const currentNames=this.carNamesSubject.getValue()
+        const updatedNames=[...currentNames,name]
+        this.carNamesSubject.next(updatedNames)
+    }
+}
+
+------------------------------------------------------
+forms.ts
+import { CommonModule } from '@angular/common';
+import { Component, Output,EventEmitter } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CarService } from '../../car';
+
+@Component({
+  selector: 'app-forms',
+  standalone :true,
+  imports: [CommonModule,FormsModule],
+  templateUrl: './forms.html',
+  styleUrl: './forms.css',
+})
+export class Forms 
+{
+  CarName:string='';
+
+  constructor(private carService : CarService)
+  {
+
+  }
+
+  onsubmit()
+  {
+    console.log(this.CarName + "Added Successfully to wishlist")
+ 
+    //sending data using carservice
+    this.carService.addCarName(this.CarName);
+        
+    this.CarName='';
+    
+  }
+
+}
+
+-------------------------------------------------
+list.ts
+
+import { CommonModule } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
+import { CarService } from '../../car';
+
+@Component({
+  selector: 'app-list',
+  standalone:true,
+  imports: [CommonModule],
+  templateUrl: './list.html',
+  styleUrl: './list.css',
+})
+export class List implements OnInit
+{
+  carNames:string[]=[]
+
+  constructor(private carService : CarService)
+  {
+
+  }
+
+  ngOnInit(): void 
+  {
+    this.carService.carNames$.subscribe((names)=>{
+      this.carNames=names;
+    })
+  }
+}
+
+==========================================================================
